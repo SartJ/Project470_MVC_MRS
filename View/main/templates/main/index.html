@@ -1,0 +1,39 @@
+{% extends 'main/base.html' %}
+
+
+{% block content %}
+
+<div class="container">
+    <br>
+    <div class="card" id="backdrop">
+        <div class="card-body" >
+            <div class="row" >
+                {% for movie in movies %}
+                <div class="col-md-4" >
+                    <div class="card" id="cardbg">
+
+                        <div class="card-body" >
+
+                            <div class="text-center">
+                                <img src="{{movie.image}}" alt="" class="img-fluid" width="75%" height="75%">
+                            <h3 class="text-center">{{ movie.name }}</h3>
+                            <p class="text-center">Avg.Rating: {{ movie.averageRating }} </p>
+
+                            <a href="{% url 'main:detail' movie.id %}">Read More</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <br>
+                </div>
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
