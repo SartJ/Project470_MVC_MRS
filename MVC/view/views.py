@@ -22,7 +22,7 @@ def home(request):
 
     }
 
-    return render(request, 'main/index.html', context)
+    return render(request, 'view/index.html', context)
 
 # detail page
 def detail(request, id):
@@ -40,9 +40,9 @@ def detail(request, id):
         "average": average,
 
     }
-    return render(request, 'main/details.html', context)
+    return render(request, 'view/details.html', context)
 
-# def main(request):
+# def views(request):
 #     return render(request, 'base.html')
 
 #add movies to the database
@@ -54,10 +54,10 @@ def detail(request, id):
 #         if form.is_valid():
 #             data = form.save(commit=False)
 #             data.save()
-#             return redirect("main:home")
+#             return redirect("views:home")
 #         else:
 #             form = MovieForm()
-#         return render(request, 'main/addmovies.html', {"form": form})
+#         return render(request, 'views/addmovies.html', {"form": form})
 
 def add_movies(request):
     if request.user.is_authenticated:
@@ -75,13 +75,13 @@ def add_movies(request):
                     submitted=True
 
 
-            return render(request, 'main/addmovies.html', {"form": form, "controller": "Add Movie", 'submitted':submitted})
+            return render(request, 'view/addmovies.html', {"form": form, "controller": "Add Movie", 'submitted':submitted})
         #if they are not admin
         else:
-            return redirect("main:home")
+            return redirect("view:home")
     #if they are not logged in
     else:
-        return redirect("accounts:login")
+        return redirect("models:login")
 
 def edit_movies(request, id):
     if request.user.is_authenticated:
@@ -96,17 +96,17 @@ def edit_movies(request, id):
                 if form.is_valid():
                     data = form.save(commit=False)
                     data.save()
-                    return redirect("main:detail", id)
+                    return redirect("view:detail", id)
             else:
                 form = MovieForm(instance=movie)
-            # return HttpResponseRedirect('main/addmovies?submitted=True')
-            return render(request, 'main/addmovies.html', {"form": form, "controller": "Edit Movie"})
+            # return HttpResponseRedirect('views/addmovies?submitted=True')
+            return render(request, 'view/addmovies.html', {"form": form, "controller": "Edit Movie"})
          #if they are not admin
         else:
-            return redirect("main:home")
+            return redirect("view:home")
     #if they are not logged in
     else:
-        return redirect("accounts:login")
+        return redirect("models:login")
 
 #delete movies
 def delete_movies(request, id):
@@ -118,14 +118,14 @@ def delete_movies(request, id):
 
             #delete the movie
             movie.delete()
-            return redirect("main:home")
+            return redirect("view:home")
 
          #if they are not admin
         else:
-            return redirect("main:home")
+            return redirect("view:home")
     #if they are not logged in
     else:
-        return redirect("accounts:login")
+        return redirect("models:login")
 
 
 def add_review(request, id):
@@ -140,12 +140,12 @@ def add_review(request, id):
                 data.user = request.user
                 data.movie = movie
                 data.save()
-                return redirect("main:detail", id)
+                return redirect("view:detail", id)
         else:
             form = ReviewForm()
-        return render(request, 'main/details.html', {"form": form})
+        return render(request, 'view/details.html', {"form": form})
     else:
-        return redirect("accounts:login")
+        return redirect("models:login")
 
 
 def edit_review(request, movie_id, review_id):
@@ -163,18 +163,18 @@ def edit_review(request, movie_id, review_id):
                     data = form.save(commit=False)
                     if (data.rating > 10) or (data.rating < 0):
                         error = "Out of range. Please select rating from 0 to 10."
-                        return render(request, 'main/editreview.html', {"error": error, "form":form})
+                        return render(request, 'view/editreview.html', {"error": error, "form":form})
                     else:
 
                         data.save()
-                        return redirect("main:detail", movie_id)
+                        return redirect("view:detail", movie_id)
                 else:
                     form = ReviewForm(instance=review)
-                return render(request, 'main/editreview.html', {"form": form})
+                return render(request, 'view/editreview.html', {"form": form})
             else:
-                return redirect("main:detail", movie_id)
+                return redirect("view:detail", movie_id)
         else:
-            return redirect("accounts:login")
+            return redirect("models:login")
 
 
 #Delete review:
@@ -189,6 +189,6 @@ def delete_review(request, movie_id, review_id):
             #grant permission to delete
             review.delete()
 
-        return redirect("main:detail", movie_id)
+        return redirect("view:detail", movie_id)
     else:
-        return redirect("accounts:login")
+        return redirect("models:login")

@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 # Registration
 def register(request):
     if request.user.is_authenticated:
-        return redirect("main:home")
+        return redirect("view:home")
     else:
         if request.method == "POST":
             form_class = RegistrationForm
@@ -24,17 +24,17 @@ def register(request):
                 # login the user
                 login(request, user)
 
-                return redirect("main:home")
+                return redirect("view:home")
         else:
             form_class = RegistrationForm
             form = RegistrationForm()
-        return render(request, "accounts/register.html", {"form": form})
+        return render(request, "models/register.html", {"form": form})
 
 
 # login
 def login_user(request):
     if request.user.is_authenticated:
-        return redirect("main:home")
+        return redirect("view:home")
     else:
         if request.method == "POST":
             username = request.POST['username']
@@ -46,18 +46,18 @@ def login_user(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return redirect("main:home")
+                    return redirect("view:home")
                 else:
-                    return render(request, 'accounts/login.html', {"error": "Your account has been disabled."})
+                    return render(request, 'models/login.html', {"error": "Your account has been disabled."})
             else:
-                return render(request, 'accounts/login.html', {"error": "Invalid Username or Password. Try Again."})
-        return render(request, 'accounts/login.html')
+                return render(request, 'models/login.html', {"error": "Invalid Username or Password. Try Again."})
+        return render(request, 'models/login.html')
 
 
 def logout_user(request):
     if request.user.is_authenticated:
         logout(request)
         print("Logged out successfully.")
-        return redirect("accounts:login")
+        return redirect("models:login")
     else:
-        return redirect("accounts:login")
+        return redirect("models:login")
