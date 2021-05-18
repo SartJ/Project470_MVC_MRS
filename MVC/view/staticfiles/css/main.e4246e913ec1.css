@@ -1,0 +1,19 @@
+body{
+    background-color: #000;
+    background-image: linear-gradient(320deg, #b2d430 0%, #000000 74%);
+}
+#backdrop{
+    background-color:#a7d129;
+}
+#cardbg{
+    color: #f5eded;
+    background-color:#000000;
+}
+.container{
+
+    background-color: #000;
+}
+
+#topHeading{
+    color: red;
+}
